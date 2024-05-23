@@ -1,10 +1,10 @@
 from airflow.decorators import task
 from extract import DataHandle
-from couchdb_handle import CouchHandle
+from couchdb_conn import CouchHandle
 from datetime import datetime,timezone,timedelta
 
 
-@task(task_id="extract")
+@task(task_id="extract_1")
 def LoadToStaging():
     dh = DataHandle()
     ch = CouchHandle()
