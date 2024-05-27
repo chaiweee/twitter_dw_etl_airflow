@@ -1,5 +1,5 @@
 import requests
-import auth
+import dags.auth as auth
 class DataHandle:
     def url_builder(self, query, start_time, end_time, max_count, pagination_token):
         url = "https://api.twitter.com/2/tweets/search/recent?query=" + query + "&start_time=" + start_time
