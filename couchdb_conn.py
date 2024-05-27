@@ -31,10 +31,14 @@ class CouchHandle:
         else:
             raise Exception(f"Database '{db_name}' does not exist.")
 
-    
+    def getDoc(self, db_name):
+        db = self.get_database(db_name)
+        return [db[doc_id] for doc_id in db]
+
     def insertDoc(self, db_name, doc):
         db = self.get_database(db_name)
         db.save(doc)
+
 
     def deleteDoc(self, db_name, doc_id):
         db = self.get_database(db_name)

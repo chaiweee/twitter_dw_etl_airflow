@@ -1,14 +1,8 @@
 from airflow.decorators import task
 from couchdb_conn import CouchHandle
 import re
-from datetime import datetime,timezone
 
-
-# def filterSource(text):
-#     ch = CouchHandle()
-#     x = text.split('Twitter for ')
-#     x = x[len(x)-1].split("Twitter")
-#     return x[len(x)-1]
+db_name = "twitter_data_staging"
 
 def text_preprocessing(text):
     text = text.lower()
@@ -23,12 +17,15 @@ def text_preprocessing(text):
 @task(task_id="transform")
 def TransformData():
     ch = CouchHandle()
-    for id in ch.db:
-        doc = ch.db[id]
+    db = ch.get_database(db_name)
+    for id in db:
+        doc = db[id]
         if 'text' in doc:
             original_text = doc['text']
             clean_text = text_preprocessing(original_text)
             doc["text"] = clean_text
-            ch.insert(doc)
+            ch.insertDoc(db_name, doc)
 
     print("Data transformation complete and saved back to CouchDB")
+
+
